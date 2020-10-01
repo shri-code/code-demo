@@ -1,0 +1,53 @@
+You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+
+Merge all the linked-lists into one sorted linked-list and return it.
+
+
+
+code :
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& list) {
+       if(list.size()==0){
+           ListNode* te = NULL;
+           return te;
+       } 
+        priority_queue<pair<int,ListNode*>,vector<pair<int,ListNode*>>,greater<pair<int,ListNode*>>> q;
+        
+   
+    //ListNode* ans;
+    for(int i=0;i<list.size();i++){
+        if(list[i]!=NULL)
+             q.push({list[i]->val,list[i]});    
+    }
+    if(q.size()==0){
+        ListNode* temp = NULL;
+        return temp;
+    }
+   pair<int,ListNode*> te = q.top();
+   ListNode* temp = new ListNode(te.first);
+   if(te.second->next!=NULL){
+       q.push({te.second->next->val, te.second->next});
+   }
+   q.pop();
+   ListNode* ans = temp;
+   while(!q.empty()){
+       pair<int,ListNode*> te = q.top();
+      temp->next = new ListNode(te.first);
+       q.pop();
+   if(te.second->next!=NULL){
+       q.push({te.second->next->val, te.second->next});
+   }
+       
+       temp= temp->next;
+       
+   }  
+
+       return ans; 
+    }
+};
+
+
+
+
+Time Complexity : n*k
